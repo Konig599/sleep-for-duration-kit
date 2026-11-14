@@ -29,3 +29,10 @@ Compound durations are summed, and whitespace between parts is optional, so
 `"1h30m"` and `"1h 30m"` are equivalent. However, a unit is required on every
 part: `"1h30"` is rejected. Units are `ms`, `s`, `m`, `h` and `d`; anything
 else, including a bare number, raises `ValueError`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
